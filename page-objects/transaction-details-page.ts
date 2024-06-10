@@ -1,4 +1,4 @@
-import { expect, Locator, Page } from "@playwright/test";
+import { Locator, Page, expect } from "@playwright/test";
 import { BasePage } from "./base-page";
 
 export class TransactionDetailsPage extends BasePage
@@ -14,15 +14,31 @@ export class TransactionDetailsPage extends BasePage
 
   constructor(page: Page) {
     super(page);
+    this.page = page;
     this.continueButton = page.getByRole('button', { name: "Continue" });
     this.totalAmountDueValue = page.locator('h2:has-text("$100.20 USD")');
     this.amountWithoutFeeLabel = page.locator('p:has-text("Amount without fee")');
     this.amountWithoutFeeValue = page.locator('h2:has-text("$100.00 USD")');
-    this.feeLabel = page.locator('p:has-text("Fee")');
+    this.feeLabel = page.locator('p:text-is("Fee")');
+    // this.feeLabel = page.getByRole('paragraph').filter({ hasText: "Fee", exact: true });
     this.feeValue = page.locator('h2:has-text("$0.20 USD (0.20% of amount)")');
   }
 
-  confirmSuccessfulPageLoad() {
-    expect(this.areAllElementsVisible).toBe(true);
+  async confirmSuccessfulPageLoad() {
+    // expect(
+    //   await this.totalAmountDueValue.isVisible()
+    // ).toBe(true);
+    // expect(
+      await Promise.all([
+        this.totalAmountDueValue.waitFor(),
+        this.amountWithoutFeeLabel.waitFor(),
+        this.amountWithoutFeeValue.waitFor(),
+        this.feeLabel.waitFor(),
+        this.feeValue.waitFor()
+      ]);
+    // ).toBe(true);
+    // expect(
+    //   await this.amountWithoutFeeValue.isVisible()
+    // ).toBe(true);
   }
-} // end of class
+}

@@ -12,9 +12,16 @@ export class BasePage
     let visibilityChecks = [];
 
     // Use reflection to iterate over the properties of the sub-class instance
+    // for (let property in this) {
+    //   if (this[property] && typeof (this[property] as Locator).isVisible === 'function') {
+    //     visibilityChecks.push(((this[property] as Locator)).isVisible());
+    //   }
+    // }
+
     for (let property in this) {
-      if (this[property] && typeof (this[property] as Locator).isVisible === 'function') {
-        visibilityChecks.push(((this[property] as Locator)).isVisible());
+      console.log(`Property: ${property}, Value: ${this[property]}`); // Add this line
+      if ((this[property]) && (typeof (this[property] as Locator).isVisible === 'function')) {
+        visibilityChecks.push(await ((this[property] as Locator)).isVisible());
       }
     }
 
