@@ -1,5 +1,6 @@
 import { Locator, Page, expect } from "@playwright/test";
 import { BasePage } from "./base-page";
+import * as financials from "../utils/financials";
 
 export class TransactionDetailsPage extends BasePage
 {
@@ -9,9 +10,8 @@ export class TransactionDetailsPage extends BasePage
   readonly amountWithoutFeeValue: Locator; //h2
   // readonly feeLabel: Locator; //p
   readonly feeValue: Locator; //h2
-  readonly continueButton: Locator;
+  // readonly continueButton: Locator;
   // readonly selectPaymentAssetMessage: Locator; //p[text=Select an asset to pay for this service]
-  readonly
 
 
   constructor(page: Page) {
@@ -28,16 +28,17 @@ export class TransactionDetailsPage extends BasePage
 
   async confirmSuccessfulPageLoad() {
     // Confirm the 'Continue' button is disabled upon initial load/arrival
+    let continueButton: Locator = this.page.getByRole('button', { name: "Continue" });
     expect(
-      await this.continueButton.getAttribute('class')
+      await continueButton.getAttribute('class')
     ).toContain('Mui-disabled');
     expect(
-      await this.continueButton.getAttribute('disabled')
+      await continueButton.getAttribute('disabled')
     ).not.toBeNull();
 
-    let currencyAbbr: string             = process.env.CURRENCY_ABBR,
-        monetaryAmountWithoutFee: string = parseFloat(process.env.MONETARY_AMOUNT_WITHOUT_FEE).toFixed(2),
-        feeValue: string                 = this.feeCalculator();
+    let currencyAbbr: string             = financials.currencyAbbr,//process.env.CURRENCY_ABBR,
+        monetaryAmountWithoutFee: string = financials.monetaryAmountWithoutFee,//parseFloat(process.env.MONETARY_AMOUNT_WITHOUT_FEE).toFixed(2),
+        feeValue: string                 = financials.feeCalculator(); //this.feeCalculator();
     let feeValueText              = `\$${feeValue} ${currencyAbbr} (${process.env.FEE_PERCENT}\% of amount)`, //e.g. "$0.20 USD (0.20% of amount)"
         amountWithoutFeeValueText = `\$${monetaryAmountWithoutFee} ${currencyAbbr}`, //e.g. "$100 USD"
         amountWithFee             = `\$${(parseFloat(feeValue) + parseFloat(monetaryAmountWithoutFee)).toFixed(2)} ${currencyAbbr}` //e.g. "$100.20 USD"
