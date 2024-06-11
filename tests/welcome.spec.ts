@@ -33,7 +33,9 @@ test.describe("Welcome page", () => {
   });
 
   test('makes first asset selection', async () => {
-    await transactionDetailsPage.makeAssetSelection('USDC');
+    let cryptoAsset = 'USDT',
+        network     = 'TRON';
+    await transactionDetailsPage.makeAssetSelection(cryptoAsset, network);
     // await transactionDetailsPage.makeNetworkSelection('TRON');
 
     await transactionDetailsPage.advanceToPaymentInstructionsPage();
