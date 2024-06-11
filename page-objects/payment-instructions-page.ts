@@ -56,5 +56,11 @@ export class PaymentInstructionsPage extends BasePage
       this.page.getByText(financials.cryptoNetworkMap[crypto] || network)
     ).toBeVisible();
   }
+
+  async walletAddressQRCodeAppears() {
+    await expect(
+      this.page.getByTestId('qr-code-svg')
+    ).toBeVisible();
+  }
 } //end of class
 

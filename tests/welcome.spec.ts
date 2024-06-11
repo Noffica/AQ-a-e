@@ -33,10 +33,14 @@ test.describe("Welcome page", () => {
   });
 
   test.describe('Select first crypto asset with which to pay', () => {
-    let cryptoAsset = 'USDT',
-      network     = 'TRON';
+    test.afterAll(async() => {
+      await paymentInstructionsPage.goBack();
+    });
 
-      test('makes first asset selection', async() => {
+    let cryptoAsset = 'USDT',
+        network     = 'TRON';
+
+    test('makes first asset selection', async() => {
       await transactionDetailsPage.makeAssetSelection(cryptoAsset, network);
       // await transactionDetailsPage.makeNetworkSelection('TRON');
 
@@ -44,18 +48,26 @@ test.describe("Welcome page", () => {
       await paymentInstructionsPage.confirmSuccessfulPageLoad();
     });
 
-    test.describe('Missing: crypto amount, wallet. Present: crypto symbol, network', async() => {
+    test.describe('Missing: crypto amount, wallet address. Present: crypto symbol, network', async() => {
       test.skip('equivalent value in selected crypto asset appears on "Payment instructions" page', async() => {
-        await paymentInstructionsPage.convertedCryptoAmountAppears();
+        // equivalent crypto amount does not appear; functionality is non-operational.
       });
 
       test('crypto and network symbols appear', async() => {
         await paymentInstructionsPage.cryptoAndNetworkSymbolsAppear(cryptoAsset, network);
       });
+
+      test('QR code for wallet address appears', async() => {
+        await paymentInstructionsPage.walletAddressQRCodeAppears();
+      });
+
+      test.skip('QR code for wallet corresponds to address', async() => {
+        // generation of wallet address and corresponding QR code is non-operational.
+      });
     });
   });
 
-  test('clipboard', async ({ browserName }) => {
-    test.skip(browserName === 'firefox', 'Clipboard permissions inaccessible in Firefox'); //see https://github.com/microsoft/playwright/blob/main/tests/library/permissions.spec.ts#L155
+  test.skip('Clipboard permissions inaccessible in Firefox', async ({ browserName }) => {
+    browserName === 'firefox' //see https://github.com/microsoft/playwright/blob/main/tests/library/permissions.spec.ts#L155
   });
 });

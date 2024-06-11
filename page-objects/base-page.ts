@@ -1,4 +1,4 @@
-import { expect, Locator, Page } from "@playwright/test";
+import { Locator, Page } from "@playwright/test";
 
 export class BasePage
 {
@@ -38,5 +38,9 @@ export class BasePage
     await element.click();
     // check for no change
     return (await this.page.content() !== initialPageDOM);
+  }
+
+  async goBack() {
+    await this.page.goBack();
   }
 }
