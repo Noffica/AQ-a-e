@@ -9,3 +9,12 @@ export function feeCalculator(dollarNumber?: number, feeAsPercent?: number): str
 export const currencyAbbr: string = process.env.CURRENCY_ABBR;
 export const monetaryAmountWithoutFee: string = parseFloat(process.env.MONETARY_AMOUNT_WITHOUT_FEE).toFixed(2);
 
+export const cryptoNetworkMap = {
+  'BTC':   'BTC',
+  'ETH':   'ETH',
+  'BCH':   'BCH',
+  'LTC':   'LTC',
+  'USDC':  'ETH',
+  'MATIC': 'ETH',
+  'SOL':   'SOL'
+};

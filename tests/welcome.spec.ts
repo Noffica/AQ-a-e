@@ -27,19 +27,32 @@ test.describe("Welcome page", () => {
     //   await context.close();
     // });
 
-  test('advances from "Welcome" to "Transaction details" page', async () => {
+  test('advances from "Welcome" to "Transaction details" page', async() => {
     await welcomePage.advanceToTransactionDetailsPage();
     await transactionDetailsPage.confirmSuccessfulPageLoad();
   });
 
-  test('makes first asset selection', async () => {
+  test.describe('Select first crypto asset with which to pay', () => {
     let cryptoAsset = 'USDT',
-        network     = 'TRON';
-    await transactionDetailsPage.makeAssetSelection(cryptoAsset, network);
-    // await transactionDetailsPage.makeNetworkSelection('TRON');
+      network     = 'TRON';
 
-    await transactionDetailsPage.advanceToPaymentInstructionsPage();
-    await paymentInstructionsPage.confirmSuccessfulPageLoad();
+      test('makes first asset selection', async() => {
+      await transactionDetailsPage.makeAssetSelection(cryptoAsset, network);
+      // await transactionDetailsPage.makeNetworkSelection('TRON');
+
+      await transactionDetailsPage.advanceToPaymentInstructionsPage();
+      await paymentInstructionsPage.confirmSuccessfulPageLoad();
+    });
+
+    test.describe('Missing: crypto amount, wallet. Present: crypto symbol, network', async() => {
+      test.skip('equivalent value in selected crypto asset appears on "Payment instructions" page', async() => {
+        await paymentInstructionsPage.convertedCryptoAmountAppears();
+      });
+
+      test('crypto and network symbols appear', async() => {
+        await paymentInstructionsPage.cryptoAndNetworkSymbolsAppear(cryptoAsset, network);
+      });
+    });
   });
 
   test('clipboard', async ({ browserName }) => {
