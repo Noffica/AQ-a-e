@@ -11,14 +11,16 @@ export class TransactionDetailsPage extends BasePage
   readonly feeValue: Locator; //h2
   readonly continueButton: Locator;
   // readonly selectPaymentAssetMessage: Locator; //p[text=Select an asset to pay for this service]
+  readonly
+
 
   constructor(page: Page) {
     super(page);
     this.page = page;
-    this.continueButton = page.getByRole('button', { name: "Continue" });
-    this.totalAmountDueValue = page.locator('h2:has-text("$100.20 USD")');
+    // this.continueButton = page.getByRole('button', { name: "Continue" });
+    // this.totalAmountDueValue = page.locator('h2:has-text("$100.20 USD")');
     // this.amountWithoutFeeLabel = page.locator('p:has-text("Amount without fee")');
-    this.amountWithoutFeeValue = page.locator('h2:has-text("$100.00 USD")');
+    // this.amountWithoutFeeValue = page.locator('h2:has-text("$100.00 USD")');
     // this.feeLabel = page.locator('p:text-is("Fee")');
     // this.feeLabel = page.getByRole('paragraph').filter({ hasText: "Fee", exact: true });
     // this.feeValue = page.locator('h2:has-text("$0.20 USD (0.20% of amount)")');
@@ -37,9 +39,10 @@ export class TransactionDetailsPage extends BasePage
         monetaryAmountWithoutFee: string = parseFloat(process.env.MONETARY_AMOUNT_WITHOUT_FEE).toFixed(2),
         feeValue: string                 = this.feeCalculator();
     let feeValueText              = `\$${feeValue} ${currencyAbbr} (${process.env.FEE_PERCENT}\% of amount)`, //e.g. "$0.20 USD (0.20% of amount)"
-        amountWithoutFeeValueText = `\$${monetaryAmountWithoutFee} ${currencyAbbr}`,
-        amountWithFee             = `\$${(parseFloat(feeValue) + parseFloat(monetaryAmountWithoutFee)).toFixed(2)} ${currencyAbbr}`
+        amountWithoutFeeValueText = `\$${monetaryAmountWithoutFee} ${currencyAbbr}`, //e.g. "$100 USD"
+        amountWithFee             = `\$${(parseFloat(feeValue) + parseFloat(monetaryAmountWithoutFee)).toFixed(2)} ${currencyAbbr}` //e.g. "$100.20 USD"
 
+    // Only elements containing logic-dependent info. are asserted
     await Promise.all([
       // this.totalAmountDueValue.waitFor(),
       // this.amountWithoutFeeLabel.waitFor(),
