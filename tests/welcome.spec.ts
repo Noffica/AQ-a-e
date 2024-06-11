@@ -49,8 +49,9 @@ test.describe("Welcome page", () => {
     });
 
     test.describe('Missing: crypto amount, wallet address. Present: crypto symbol, network', async() => {
-      test.skip('equivalent value in selected crypto asset appears on "Payment instructions" page', async() => {
-        // equivalent crypto amount does not appear; functionality is non-operational.
+      test.skip('converted value in selected crypto asset appears on "Payment instructions" page', async() => {
+        // converted, equivalent crypto amount does not appear; functionality is non-operational.
+        // This precludes any further concerns about
       });
 
       test('crypto and network symbols appear', async() => {
@@ -66,6 +67,12 @@ test.describe("Welcome page", () => {
       });
     });
   });
+
+  // test.describe('Change decision and select another crypto asset', () => {
+  //   let cryptoAsset = 'USDC';
+
+
+  // });
 
   test.skip('Clipboard permissions inaccessible in Firefox', async ({ browserName }) => {
     browserName === 'firefox' //see https://github.com/microsoft/playwright/blob/main/tests/library/permissions.spec.ts#L155

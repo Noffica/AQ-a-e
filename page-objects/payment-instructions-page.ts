@@ -8,8 +8,11 @@ export class PaymentInstructionsPage extends BasePage
   // readonly pageHeadingIdentifier: [string, { name: string }] = ['heading', { name: 'Payment instructions' }];
   readonly pageHeadingElement: Locator;
   readonly instructionDetails: Locator;
+  readonly depositToWalletHeading: Locator;
+  readonly depositAddressLabel: Locator;
+  readonly alertMessageElement: Locator;
 
-  amountDueValue: Locator;
+  // amountDueValue: Locator;
 
   constructor(page: Page) {
     super(page);
@@ -17,6 +20,9 @@ export class PaymentInstructionsPage extends BasePage
     // this.pageHeadingIdentifier = ['heading', { name: 'Payment instructions' }];
     this.pageHeadingElement = page.getByRole('heading', { name: 'Payment instructions' });
     this.instructionDetails = page.getByText('To complete payment, please send amount due to wallet below then check the payment status when you are done.');
+    this.depositToWalletHeading = page.getByRole('heading', { name: 'Deposit to wallet' });
+    this.depositAddressLabel = page.getByText('Deposit address', { exact: true });
+    this.alertMessageElement = this.page.getByRole('alert').filter({ has: this.page.getByTestId('InfoOutlinedIcon')});
     // this.amountDueValue = page.getByRole('heading')
   }
 
@@ -28,8 +34,12 @@ export class PaymentInstructionsPage extends BasePage
   async confirmSuccessfulPageLoad() {
     await Promise.all([
       expect(this.pageHeadingElement).toBeVisible(),
-      expect(this.instructionDetails).toBeVisible()
-    ])
+      expect(this.instructionDetails).toBeVisible(),
+      expect(this.depositToWalletHeading).toBeVisible(),
+      expect(this.depositAddressLabel).toBeVisible(),
+      expect(this.alertMessageElement).toContainText('You have 9:'), // this assumes that there are still 9:xx minutes remaining when the browser arrives at this page
+      expect(this.alertMessageElement).toContainText(' to complete payment'),
+    ]);
   }
 
   async convertedCryptoAmountAppears() {
