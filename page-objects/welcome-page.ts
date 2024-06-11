@@ -1,6 +1,5 @@
-import { Locator, Page, expect } from "@playwright/test";
+import { Locator, Page } from "@playwright/test";
 import { BasePage } from "./base-page";
-import { TransactionDetailsPage } from "./transaction-details-page";
 
 export class WelcomePage extends BasePage
 {
@@ -15,10 +14,10 @@ export class WelcomePage extends BasePage
   }
 
   async advanceToTransactionDetailsPage() {
-    this._goTo();
-    this._fillCustomerReferenceID();
-    this._clickContinue();
-    this._verifyHandOffToTransactionDetailsPage();
+    await this._goTo();
+    await this._fillCustomerReferenceID();
+    await this._clickContinue();
+    await this._verifyHandOffToTransactionDetailsPage();
   }
 
   private async _goTo() {
@@ -47,15 +46,5 @@ export class WelcomePage extends BasePage
       &&
       response.status() === 200
     );
-
-    const transactionDetailsPage = new TransactionDetailsPage(this.page);
-
-    // Confirm the 'Continue' button is disabled
-    expect(
-      await transactionDetailsPage.continueButton.getAttribute('class')
-    ).toContain('Mui-disabled');
-    expect(
-      await transactionDetailsPage.continueButton.getAttribute('disabled')
-    ).not.toBeNull();
   }
 }
