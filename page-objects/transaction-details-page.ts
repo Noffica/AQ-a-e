@@ -10,14 +10,14 @@ export class TransactionDetailsPage extends BasePage
   // readonly amountWithoutFeeValue: Locator; //h2
   // // readonly feeLabel: Locator; //p
   // readonly feeValue: Locator; //h2
-  // readonly continueButton: Locator;
+  readonly continueButton: Locator;
   // readonly selectPaymentAssetMessage: Locator; //p[text=Select an asset to pay for this service]
 
 
   constructor(page: Page) {
     super(page);
     this.page = page;
-    // this.continueButton = page.getByRole('button', { name: "Continue" });
+    this.continueButton = page.getByRole('button', { name: "Continue" });
     // this.totalAmountDueValue = page.locator('h2:has-text("$100.20 USD")');
     // this.amountWithoutFeeLabel = page.locator('p:has-text("Amount without fee")');
     // this.amountWithoutFeeValue = page.locator('h2:has-text("$100.00 USD")');
@@ -28,12 +28,12 @@ export class TransactionDetailsPage extends BasePage
 
   async confirmSuccessfulPageLoad() {
     // Confirm the 'Continue' button is disabled upon initial load/arrival
-    let continueButton: Locator = this.page.getByRole('button', { name: "Continue" });
+      // let continueButton: Locator = this.page.getByRole('button', { name: "Continue" });
     expect(
-      await continueButton.getAttribute('class')
+      await this.continueButton.getAttribute('class')
     ).toContain('Mui-disabled');
     expect(
-      await continueButton.getAttribute('disabled')
+      await this.continueButton.getAttribute('disabled')
     ).not.toBeNull();
 
     // Financial info.
@@ -58,16 +58,40 @@ export class TransactionDetailsPage extends BasePage
     ]);
   }
 
-  async makeAssetSelection(assetAbbreviation: string) {
+  async makeAssetSelection(assetAbbreviation: string, networkAbbreviation?: string) {
     await this.page.locator('#mui-component-select-cryptoType').click();
     // await this.page.getByLabel('Select asset').click();
     await this.page.getByRole('option', { name: assetAbbreviation}).click();
+
+    if (assetAbbreviation === 'USDT') {
+      await this.page.locator('#mui-component-select-networkType').click();
+      await this.page.getByRole('option', { name: networkAbbreviation}).click();
+    }
   }
 
-  async makeNetworkSelection(networkAbbreviation: string) {
-    // await this.page.getByLabel('Select network').click();
-    await this.page.locator('#mui-component-select-networkType').click();
-    await this.page.getByRole('option', { name: networkAbbreviation}).click();
+  // async makeNetworkSelection(networkAbbreviation: string) {
+  //   // await this.page.getByLabel('Select network').click();
+  //   await this.page.locator('#mui-component-select-networkType').click();
+  //   await this.page.getByRole('option', { name: networkAbbreviation}).click();
+  // }
+
+  async advanceToPaymentInstructionsPage() {
+    this.continueButton.click();
+
+    await this.page.waitForResponse(response =>
+      response.url().includes('/api/bill') && response.status() === 200
+    );
+    await this.page.waitForResponse(response =>
+      response.url().includes('/payment/status') && response.status() === 200
+    );
+
+    // let URLEnd: string;
+    // if (asset === 'USDT') {
+    //   URLEnd = `/payment/instructions?cryptoType=${asset}&networkType=${network?.toLowerCase()}`
+    // } else {
+    //   URLEnd = `/payment/instructions?cryptoType=${asset}`
+    // }
+    // expect(this.page.url().endsWith(URLEnd)).toBe(true);
   }
 
   // feeCalculator(dollarNumber?: number, feeAsPercent?: number): string {

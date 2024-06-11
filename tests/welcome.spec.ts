@@ -30,8 +30,10 @@ test.describe("Welcome page", () => {
   });
 
   test('makes first asset selection', async () => {
-    await transactionDetailsPage.makeAssetSelection('USDT');
-    await transactionDetailsPage.makeNetworkSelection('TRON');
+    await transactionDetailsPage.makeAssetSelection('USDC');
+    // await transactionDetailsPage.makeNetworkSelection('TRON');
+
+    await transactionDetailsPage.advanceToPaymentInstructionsPage();
   });
 
   test('clipboard', async ({ browserName }) => {
