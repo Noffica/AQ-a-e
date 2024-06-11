@@ -24,10 +24,14 @@ test.describe("Welcome page", () => {
     //   await context.close();
     // });
 
-  test('go past "Welcome" page', async () => {
+  test('advances from "Welcome" to "Transaction details" page', async () => {
     await welcomePage.advanceToTransactionDetailsPage();
-
     await transactionDetailsPage.confirmSuccessfulPageLoad();
+  });
+
+  test('makes first asset selection', async () => {
+    await transactionDetailsPage.makeAssetSelection('USDT');
+    await transactionDetailsPage.makeNetworkSelection('TRON');
   });
 
   test('clipboard', async ({ browserName }) => {
