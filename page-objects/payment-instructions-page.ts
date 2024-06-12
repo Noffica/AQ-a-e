@@ -10,6 +10,7 @@ export class PaymentInstructionsPage extends BasePage {
   readonly depositToWalletHeading: Locator;
   readonly depositAddressLabel: Locator;
   readonly alertMessageElement: Locator;
+  readonly viewPaymentStatusButton: Locator;
 
   // amountDueValue: Locator;
 
@@ -21,6 +22,7 @@ export class PaymentInstructionsPage extends BasePage {
     this.depositToWalletHeading = page.getByRole("heading", { name: "Deposit to wallet" });
     this.depositAddressLabel = page.getByText("Deposit address", { exact: true });
     this.alertMessageElement = page.getByRole("alert").filter({ has: page.getByTestId("InfoOutlinedIcon") });
+    this.viewPaymentStatusButton = page.getByRole('button', { name: 'View payment status' });
     // this.amountDueValue = page.getByRole('heading')
   }
 
@@ -28,16 +30,12 @@ export class PaymentInstructionsPage extends BasePage {
     return this.page.getByRole("heading", { name: "Payment instructions" });
   }
 
-  getViewPaymentStatusButton(): Locator {
-    return this.page.getByRole('button', { name: 'View payment status' });
-  }
-
   /**
    * This method confirms that the page has loaded successfully.
    * It checks if the page heading and instruction details are visible on the page.
    *
    * Note: IF all converted crypto, wallet address and a proper QR code all appeared then…
-   * … the followin methods such as `convertedCryptoAmountAppears()`, `cryptoAndNetworkSymbolsAppear()` etc.…
+   * … the following methods such as `convertedCryptoAmountAppears()`, `cryptoAndNetworkSymbolsAppear()` etc.…
    * … would be rendered private, and be made part of this umbrella method
    * They are kept separate so as to highlight non-operational functionality in tests
    * @returns {Promise<void>}
@@ -93,8 +91,16 @@ export class PaymentInstructionsPage extends BasePage {
    */
   async generatedQRCodeMatchesWalletAddress() {}
 
+  getViewPaymentStatusButton() {
+    return (
+      this.page.getByRole('button', { name: 'View payment status' })
+    );
+  }
+
+  /** */
   async advanceToPaymentStatusPage() {
-    await this.getViewPaymentStatusButton().click();
+    // await this.getViewPaymentStatusButton().click();
+    // await this.viewPaymentStatusButton.click();
     await this.page.waitForResponse(response =>
       response.url().includes('/payment/status') && response.status() === 200
     );

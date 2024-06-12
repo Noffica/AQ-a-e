@@ -86,9 +86,7 @@ export class TransactionDetailsPage extends BasePage
    * @async
    */
   async advanceToPaymentInstructionsPage() {
-    console.log('before');
-    this.continueButton.click();
-    console.log('after');
+    await this.continueButton.click();
 
     await this.page.waitForResponse(response =>
       response.url().includes('/api/bill') && response.status() === 200
