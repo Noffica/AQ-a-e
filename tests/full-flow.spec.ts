@@ -74,13 +74,14 @@ test.describe("Full flow from login to check of payment status", () => {
       await transactionDetailsPage.advanceToPaymentInstructionsPage();
       await paymentInstructionsPage.confirmSuccessfulPageLoad();
       await paymentInstructionsPage.cryptoAndNetworkSymbolsAppear(cryptoAsset);
+      await paymentInstructionsPage.advanceToPaymentStatusPage();
     });
   });
 
   test.describe("Moving on to viewing payment status", () => {
     let cryptoAsset = "USDC";
 
-    test("ps p", async () => {
+    test.skip("ps p", async () => {
       paymentInstructionsPage.advanceToPaymentStatusPage();
     });
   });

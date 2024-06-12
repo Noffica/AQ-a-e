@@ -99,7 +99,7 @@ export class PaymentInstructionsPage extends BasePage {
 
   /** */
   async advanceToPaymentStatusPage() {
-    // await this.getViewPaymentStatusButton().click();
+    await this.getViewPaymentStatusButton().click();
     // await this.viewPaymentStatusButton.click();
     await this.page.waitForResponse(response =>
       response.url().includes('/payment/status') && response.status() === 200
