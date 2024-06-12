@@ -10,7 +10,7 @@ export class PaymentInstructionsPage extends BasePage {
   readonly depositToWalletHeading: Locator;
   readonly depositAddressLabel: Locator;
   readonly alertMessageElement: Locator;
-  readonly viewPaymentStatusButton: Locator;
+  // readonly viewPaymentStatusButton: Locator;
 
   // amountDueValue: Locator;
 
@@ -22,7 +22,7 @@ export class PaymentInstructionsPage extends BasePage {
     this.depositToWalletHeading = page.getByRole("heading", { name: "Deposit to wallet" });
     this.depositAddressLabel = page.getByText("Deposit address", { exact: true });
     this.alertMessageElement = page.getByRole("alert").filter({ has: page.getByTestId("InfoOutlinedIcon") });
-    this.viewPaymentStatusButton = page.getByRole('button', { name: 'View payment status' });
+    // this.viewPaymentStatusButton = page.getByRole('button', { name: 'View payment status' });
     // this.amountDueValue = page.getByRole('heading')
   }
 
@@ -91,16 +91,24 @@ export class PaymentInstructionsPage extends BasePage {
    */
   async generatedQRCodeMatchesWalletAddress() {}
 
-  getViewPaymentStatusButton() {
-    return (
-      this.page.getByRole('button', { name: 'View payment status' })
-    );
+  /**
+   * Returns the locator for the "View payment status" button.
+   *
+   * @returns {Locator} The locator for the "View payment status" button.
+   */
+  getViewPaymentStatusButton(): Locator {
+    return this.page.getByRole('button', { name: 'View payment status' });
   }
 
-  /** */
+  /**
+   * This method advances the user to the payment status page.
+   * It first clicks the "View payment status" button, then waits for a specific API response to ensure the page has loaded correctly.
+   * The response is from the '/payment/status' endpoint and must return a status of 200 to indicate success.
+   *
+   * @async
+   */
   async advanceToPaymentStatusPage() {
     await this.getViewPaymentStatusButton().click();
-    // await this.viewPaymentStatusButton.click();
     await this.page.waitForResponse(response =>
       response.url().includes('/payment/status') && response.status() === 200
     );

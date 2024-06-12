@@ -1,4 +1,4 @@
-import { Locator, Page } from "@playwright/test";
+import { Page, expect } from "@playwright/test";
 
 export class BasePage
 {
@@ -6,6 +6,14 @@ export class BasePage
 
   constructor(page: Page) {
     this.page = page;
+  }
+
+  async confirmCustomerReferenceID(customerReferenceID?: string) {
+    let custRefID = customerReferenceID || process.env.CUSTOMER_REFERENCE_ID;
+    // let expectedText = `Customer Reference ID: ${custRefID}`
+    await expect(
+      this.page.getByText(custRefID)
+    ).toBeVisible();
   }
 
       // async areAllElementsVisible(): Promise<boolean> {

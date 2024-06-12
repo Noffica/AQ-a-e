@@ -2,17 +2,16 @@ import { test } from "@playwright/test";
 import { PaymentInstructionsPage } from "../page-objects/payment-instructions-page";
 import { TransactionDetailsPage } from "../page-objects/transaction-details-page";
 import { WelcomePage } from "../page-objects/welcome-page";
+import { PaymentStatusPage } from "../page-objects/payment-status-page";
 
 // TODO: mark tests as serial - do **not** rely on default behaviour
 test.describe("Full flow from login to check of payment status", () => {
   test.describe.configure({ mode: "serial" });
 
-  // TODO: clean-up
-  // let browser: Browser;
-  // let context: BrowserContext;
-  let welcomePage: WelcomePage;
-  let transactionDetailsPage: TransactionDetailsPage;
-  let paymentInstructionsPage: PaymentInstructionsPage;
+  let welcomePage: WelcomePage,
+      transactionDetailsPage: TransactionDetailsPage,
+      paymentInstructionsPage: PaymentInstructionsPage,
+      paymentStatusPage: PaymentStatusPage;
 
   test.beforeAll(async ({ browser, browserName }) => {
     const context = await browser.newContext();
@@ -21,6 +20,7 @@ test.describe("Full flow from login to check of payment status", () => {
     welcomePage = new WelcomePage(page);
     transactionDetailsPage = new TransactionDetailsPage(page);
     paymentInstructionsPage = new PaymentInstructionsPage(page);
+    paymentStatusPage = new PaymentStatusPage(page);
   });
 
   // TODO: remove if un-needed
@@ -74,15 +74,16 @@ test.describe("Full flow from login to check of payment status", () => {
       await transactionDetailsPage.advanceToPaymentInstructionsPage();
       await paymentInstructionsPage.confirmSuccessfulPageLoad();
       await paymentInstructionsPage.cryptoAndNetworkSymbolsAppear(cryptoAsset);
-      await paymentInstructionsPage.advanceToPaymentStatusPage();
     });
   });
 
   test.describe("Moving on to viewing payment status", () => {
-    let cryptoAsset = "USDC";
-
-    test.skip("ps p", async () => {
-      paymentInstructionsPage.advanceToPaymentStatusPage();
+    test("ps p", async () => {
+      await paymentInstructionsPage.advanceToPaymentStatusPage();
+      await paymentStatusPage.confirmSuccessfulPageLoad();
+      await paymentStatusPage.makeAPayment();
+      await paymentStatusPage.verifyHandOffToTransactionDetailsPage();
+      await transactionDetailsPage.confirmSuccessfulPageLoad();
     });
   });
 

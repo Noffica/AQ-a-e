@@ -39,9 +39,12 @@ export class TransactionDetailsPage extends BasePage
     let currencyAbbr: string             = financials.currencyAbbr,//process.env.CURRENCY_ABBR,
         monetaryAmountWithoutFee: string = financials.monetaryAmountWithoutFee,//parseFloat(process.env.MONETARY_AMOUNT_WITHOUT_FEE).toFixed(2),
         feeValue: string                 = financials.feeCalculator(); //this.feeCalculator();
-    let feeValueText              = `\$${feeValue} ${currencyAbbr} (${process.env.FEE_PERCENT}\% of amount)`, //e.g. "$0.20 USD (0.20% of amount)"
-        amountWithoutFeeValueText = `\$${monetaryAmountWithoutFee} ${currencyAbbr}`, //e.g. "$100 USD"
-        amountWithFeeText         = `\$${(parseFloat(feeValue) + parseFloat(monetaryAmountWithoutFee)).toFixed(2)} ${currencyAbbr}` //e.g. "$100.20 USD"
+    // let feeValueText              = `\$${feeValue} ${currencyAbbr} (${process.env.FEE_PERCENT}\% of amount)`, //e.g. "$0.20 USD (0.20% of amount)"
+    //     amountWithoutFeeValueText = `\$${monetaryAmountWithoutFee} ${currencyAbbr}`, //e.g. "$100 USD"
+    //     amountWithFeeText         = `\$${(parseFloat(feeValue) + parseFloat(monetaryAmountWithoutFee)).toFixed(2)} ${currencyAbbr}` //e.g. "$100.20 USD"
+    let feeValueText              = financials.feeValueText,
+        amountWithoutFeeValueText = financials.amountWithoutFeeValueText,
+        amountWithFeeText         = financials.amountWithFeeText
 
     // Only elements containing logic-dependent info. are asserted
     await Promise.all([
