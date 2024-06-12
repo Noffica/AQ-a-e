@@ -5,61 +5,60 @@ import { BasePage } from "./base-page";
 export class TransactionDetailsPage extends BasePage
 {
   readonly page: Page;
-  // readonly totalAmountDueValue: Locator; //h2
-  // // readonly amountWithoutFeeLabel: Locator; //p
-  // readonly amountWithoutFeeValue: Locator; //h2
-  // // readonly feeLabel: Locator; //p
-  // readonly feeValue: Locator; //h2
-  readonly continueButton: Locator;
-  // readonly selectPaymentAssetMessage: Locator; //p[text=Select an asset to pay for this service]
 
-  constructor(page: Page) {
+  constructor(page: Page)
+  {
     super(page);
     this.page = page;
-    this.continueButton = page.getByRole('button', { name: "Continue" });
-    // this.totalAmountDueValue = page.locator('h2:has-text("$100.20 USD")');
-    // this.amountWithoutFeeLabel = page.locator('p:has-text("Amount without fee")');
-    // this.amountWithoutFeeValue = page.locator('h2:has-text("$100.00 USD")');
-    // this.feeLabel = page.locator('p:text-is("Fee")');
-    // this.feeLabel = page.getByRole('paragraph').filter({ hasText: "Fee", exact: true });
-    // this.feeValue = page.locator('h2:has-text("$0.20 USD (0.20% of amount)")');
   }
 
+  /**
+   * This method returns the locator for the "Continue" button.
+   *
+   * @returns {Locator} The locator for the "Continue" button.
+   */
+  getContinueButton(): Locator {
+    return this.page.getByRole('button', { name: "Continue" });
+  }
+
+  /**
+   * This method confirms the successful loading of the transaction details page.
+   * It checks for the visibility of certain elements on the page which are deemed most relevant to the function of the page.
+   * It also checks for specific attributes in some of these elements.
+   *
+   * @async
+   */
   async confirmSuccessfulPageLoad() {
     // Confirm the 'Continue' button is disabled upon initial load/arrival
-      // let continueButton: Locator = this.page.getByRole('button', { name: "Continue" });
     expect(
-      await this.continueButton.getAttribute('class')
+      await this.getContinueButton().getAttribute('class')
     ).toContain('Mui-disabled');
     expect(
-      await this.continueButton.getAttribute('disabled')
+      await this.getContinueButton().getAttribute('disabled')
     ).not.toBeNull();
 
     // Financial info.
-    let currencyAbbr: string             = financials.currencyAbbr,//process.env.CURRENCY_ABBR,
-        monetaryAmountWithoutFee: string = financials.monetaryAmountWithoutFee,//parseFloat(process.env.MONETARY_AMOUNT_WITHOUT_FEE).toFixed(2),
-        feeValue: string                 = financials.feeCalculator(); //this.feeCalculator();
-    // let feeValueText              = `\$${feeValue} ${currencyAbbr} (${process.env.FEE_PERCENT}\% of amount)`, //e.g. "$0.20 USD (0.20% of amount)"
-    //     amountWithoutFeeValueText = `\$${monetaryAmountWithoutFee} ${currencyAbbr}`, //e.g. "$100 USD"
-    //     amountWithFeeText         = `\$${(parseFloat(feeValue) + parseFloat(monetaryAmountWithoutFee)).toFixed(2)} ${currencyAbbr}` //e.g. "$100.20 USD"
     let feeValueText              = financials.feeValueText,
         amountWithoutFeeValueText = financials.amountWithoutFeeValueText,
         amountWithFeeText         = financials.amountWithFeeText
 
     // Only elements containing logic-dependent info. are asserted
     await Promise.all([
-      // this.totalAmountDueValue.waitFor(),
-      // this.amountWithoutFeeLabel.waitFor(),
-      // this.amountWithoutFeeValue.waitFor(),
-      // this.feeLabel.waitFor(),
-      // this.feeValue.waitFor()
-      // feeValueElement.waitFor()
       expect(this.page.getByRole('heading', { name: feeValueText })).toBeVisible(), //e.g. "$0.20 USD (0.20% of amount)"
       expect(this.page.getByRole('heading', { name: amountWithoutFeeValueText })).toBeVisible(), //e.g. "$100 USD"
       expect(this.page.getByRole('heading', { name: amountWithFeeText })).toBeVisible() //e.g. "$100.20 USD"
     ]);
   }
 
+  /**
+   * This method selects the asset and network type on the transaction details page.
+   * It first clicks on the asset dropdown and selects the asset by its abbreviation.
+   * If the asset is 'USDT', it also clicks on the network dropdown and selects the network by its abbreviation.
+   *
+   * @param {string} assetAbbreviation - The abbreviation of the asset to select.
+   * @param {string} [networkAbbreviation] - The abbreviation of the network to select. Optional.
+   * @async
+   */
   async makeAssetSelection(assetAbbreviation: string, networkAbbreviation?: string) {
     await this.page.locator('#mui-component-select-cryptoType').click();
     // await this.page.getByLabel('Select asset').click();
@@ -70,12 +69,6 @@ export class TransactionDetailsPage extends BasePage
       await this.page.getByRole('option', { name: networkAbbreviation }).click();
     }
   }
-
-  // async makeNetworkSelection(networkAbbreviation: string) {
-  //   // await this.page.getByLabel('Select network').click();
-  //   await this.page.locator('#mui-component-select-networkType').click();
-  //   await this.page.getByRole('option', { name: networkAbbreviation}).click();
-  // }
 
   /**
    * This method advances the user to the payment instructions page.
@@ -89,7 +82,7 @@ export class TransactionDetailsPage extends BasePage
    * @async
    */
   async advanceToPaymentInstructionsPage() {
-    await this.continueButton.click();
+    await this.getContinueButton().click();
 
     await this.page.waitForResponse(response =>
       response.url().includes('/api/bill') && response.status() === 200

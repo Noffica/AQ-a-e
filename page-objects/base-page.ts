@@ -4,50 +4,34 @@ export class BasePage
 {
   readonly page: Page;
 
-  constructor(page: Page) {
+  constructor(page: Page)
+  {
     this.page = page;
   }
 
+
+  /**
+   * Confirms the visibility of the customer reference ID on the page.
+   * If a customer reference ID is provided, it will use that; otherwise, it will use the value from the environment variable `CUSTOMER_REFERENCE_ID`.
+   *
+   * This functionality needs to be debugged further: …
+   * … customer ref. ID could **not** be seen in the top-right during tests
+   *
+   * @param {string} [customerReferenceID] - The customer reference ID to confirm. Optional.
+   * @returns {Promise<void>} A promise that resolves when the customer reference ID is confirmed to be visible.
+   */
   async confirmCustomerReferenceID(customerReferenceID?: string) {
-    let custRefID = customerReferenceID || process.env.CUSTOMER_REFERENCE_ID;
-    // let expectedText = `Customer Reference ID: ${custRefID}`
     await expect(
-      this.page.getByText(custRefID)
+      this.page.getByText(customerReferenceID || process.env.CUSTOMER_REFERENCE_ID)
     ).toBeVisible();
   }
 
-      // async areAllElementsVisible(): Promise<boolean> {
-      //   let visibilityChecks = [];
-
-      //   // Use reflection to iterate over the properties of the sub-class instance
-      //   // for (let property in this) {
-      //   //   if (this[property] && typeof (this[property] as Locator).isVisible === 'function') {
-      //   //     visibilityChecks.push(((this[property] as Locator)).isVisible());
-      //   //   }
-      //   // }
-
-      //   for (let property in this) {
-      //     console.log(`Property: ${property}, Value: ${this[property]}`); // Add this line
-      //     if ((this[property]) && (typeof (this[property] as Locator).isVisible === 'function')) {
-      //       visibilityChecks.push(await ((this[property] as Locator)).isVisible());
-      //     }
-      //   }
-
-      //   let visibilityResults = await Promise.all(visibilityChecks);
-      //   return visibilityResults.every(result =>
-      //     result === true
-      //   );
-      // }
-
-      // async doesElementInteractionChangeDOM(element: Locator): Promise<boolean> {
-      //   // initial DOM
-      //   const initialPageDOM = await this.page.content();
-      //   // click element to no effect
-      //   await element.click();
-      //   // check for no change
-      //   return (await this.page.content() !== initialPageDOM);
-      // }
-
+  /**
+   * Navigates back to the previous page in the browser history.
+   *
+   * @async
+   * @returns {Promise<void>} A promise that resolves when the navigation is complete.
+   */
   async goBack() {
     await this.page.goBack();
   }

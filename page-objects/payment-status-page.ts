@@ -11,7 +11,7 @@ export class PaymentStatusPage extends BasePage
 
   /**
    * This method confirms the successful loading of the payment status page.
-   * It checks for the visibility of various elements on the page such as headings, alerts, and icons.
+   * It checks for the visibility of certain elements on the page which are deemed most relevant to the function of the page
    * It also checks for specific text in some of these elements.
    *
    * The 'Amount remaining' and 'Outstanding amount' do *not* have unique identifiers…
@@ -22,8 +22,8 @@ export class PaymentStatusPage extends BasePage
    *
    * @async
    */
-  async confirmSuccessfulPageLoad() {
-    // await this.confirmCustomerReferenceID();
+  async confirmSuccessfulInitialPageLoad() {
+    // await this.confirmCustomerReferenceID(); //see method comments
     await Promise.all([
       expect(
         this.page.getByRole('heading', { name: 'Payment status' })
@@ -66,9 +66,18 @@ export class PaymentStatusPage extends BasePage
    */
   async makeAPayment(): Promise<void> {
     await this.getMakeAPaymentButton().click();
+    await this._verifyHandOffToTransactionDetailsPage();
   }
 
-  async verifyHandOffToTransactionDetailsPage() {
+  /**
+   * Waits for the response from the '/payment/method' endpoint to ensure the handoff to the transaction details page is successful.
+   * The response must return a status of 200 to indicate success.
+   *
+   * @private
+   * @async
+   * @returns {Promise<void>} A promise that resolves when the expected response is received.
+   */
+  private async _verifyHandOffToTransactionDetailsPage(): Promise<void> {
     await this.page.waitForResponse(response =>
       response.url().includes('/payment/method') && response.status() === 200
     );

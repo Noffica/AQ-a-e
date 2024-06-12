@@ -38,7 +38,7 @@ test.describe("Full flow from login to check of payment status", () => {
     let cryptoAsset = "USDT",
         network     = "TRON";
 
-    test("makes first asset selection", async () => {
+    test('makes first asset selection', async () => {
       await transactionDetailsPage.makeAssetSelection(cryptoAsset, network);
       // await transactionDetailsPage.makeNetworkSelection('TRON');
 
@@ -52,11 +52,11 @@ test.describe("Full flow from login to check of payment status", () => {
         paymentInstructionsPage.convertedCryptoAmountAppears();
       });
 
-      test("confirms crypto and network symbols appear", async () => {
+      test('confirms crypto and network symbols appear', async () => {
         await paymentInstructionsPage.cryptoAndNetworkSymbolsAppear(cryptoAsset, network);
       });
 
-      test.skip("confirms QR code on page for wallet corresponds to address", async () => {
+      test.skip('confirms QR code on page for wallet corresponds to address', async () => {
         await paymentInstructionsPage.generatedQRCodeMatchesWalletAddress();
       });
     });
@@ -69,7 +69,7 @@ test.describe("Full flow from login to check of payment status", () => {
   test.describe("Change decision and select another crypto asset", () => {
     let cryptoAsset = "USDC";
 
-    test("makes another asset selection and then moves forward", async () => {
+    test('makes another asset selection and then moves forward', async () => {
       await transactionDetailsPage.makeAssetSelection(cryptoAsset);
       await transactionDetailsPage.advanceToPaymentInstructionsPage();
       await paymentInstructionsPage.confirmSuccessfulPageLoad();
@@ -77,12 +77,14 @@ test.describe("Full flow from login to check of payment status", () => {
     });
   });
 
-  test.describe("Moving on to viewing payment status", () => {
-    test("ps p", async () => {
+  test.describe("Checking 'Payment status'", () => {
+    test('arrives at "Payment status"', async () => {
       await paymentInstructionsPage.advanceToPaymentStatusPage();
-      await paymentStatusPage.confirmSuccessfulPageLoad();
+      await paymentStatusPage.confirmSuccessfulInitialPageLoad();
+    });
+
+    test('attempts to make a payment → navigates to "Transaction details"', async() => {
       await paymentStatusPage.makeAPayment();
-      await paymentStatusPage.verifyHandOffToTransactionDetailsPage();
       await transactionDetailsPage.confirmSuccessfulPageLoad();
     });
   });
