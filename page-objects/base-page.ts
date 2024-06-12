@@ -35,4 +35,4 @@ export class BasePage
   async goBack() {
     await this.page.goBack();
   }
-}
+} //end of class
