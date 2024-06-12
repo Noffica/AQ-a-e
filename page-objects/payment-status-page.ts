@@ -54,7 +54,7 @@ export class PaymentStatusPage extends BasePage
    *
    * @returns {Locator} The locator for the "Make a payment" button.
    */
-  getMakeAPaymentButton(): Locator {
+  get makeAPaymentButton(): Locator {
     return this.page.getByRole('button', { name: 'Make a payment' });
   }
 
@@ -65,7 +65,7 @@ export class PaymentStatusPage extends BasePage
    * @returns {Promise<void>} A promise that resolves when the click action is complete.
    */
   async makeAPayment(): Promise<void> {
-    await this.getMakeAPaymentButton().click();
+    await this.makeAPaymentButton.click();
     await this._verifyHandOffToTransactionDetailsPage();
   }
 

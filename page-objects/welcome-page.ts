@@ -3,16 +3,35 @@ import { BasePage } from "./base-page";
 
 export class WelcomePage extends BasePage
 {
-  readonly continueButton: Locator;
-  readonly customerReferenceIDField: Locator;
+  readonly page: Page;
 
-  constructor(page: Page) {
+  constructor(page: Page)
+  {
     super(page);
-
-    this.continueButton = page.getByRole("button", { name: "Continue" });
-    this.customerReferenceIDField = page.getByLabel('Enter Customer Reference ID');
+    this.page = page;
   }
 
+
+  /**
+   * Gets the locator for the "Continue" button.
+   * @returns {Locator} The locator for the "Continue" button.
+   */
+  get continueButton(): Locator {
+    return this.page.getByRole("button", { name: "Continue" });
+  }
+
+  /**
+   * Gets the locator for the "Enter Customer Reference ID" field.
+   * @returns {Locator} The locator for the "Enter Customer Reference ID" field.
+   */
+  get customerReferenceIDField(): Locator {
+    return this.page.getByLabel('Enter Customer Reference ID');
+  }
+
+  /**
+   * Advances to the transaction details page.
+   * @async
+   */
   async advanceToTransactionDetailsPage() {
     await this._goTo();
     await this._fillCustomerReferenceID();
@@ -20,19 +39,41 @@ export class WelcomePage extends BasePage
     await this._verifyHandOffToTransactionDetailsPage();
   }
 
+  /**
+   * Navigates to the welcome page URL.
+   * @private
+   * @async
+   */
   private async _goTo() {
     await this.page.goto(process.env.WELCOME_PAGE_URL);
   }
 
+  /**
+   * Fills the customer reference ID field.
+   * @param {string} [customerReferenceID] - The customer reference ID to fill. Optional.
+   * @private
+   * @async
+   */
   private async _fillCustomerReferenceID(customerReferenceID?: string) {
     const id = customerReferenceID || process.env.CUSTOMER_REFERENCE_ID;
     await this.customerReferenceIDField.fill(id);
   }
 
+  /**
+   * Clicks the "Continue" button.
+   * @private
+   * @async
+   */
   private async _clickContinue() {
     await this.continueButton.click();
   }
 
+  /**
+   * Verifies the handoff to the transaction details page.
+   * Waits for the login and KYC API calls to complete.
+   * @private
+   * @async
+   */
   private async _verifyHandOffToTransactionDetailsPage() {
     // Wait for the login API call to complete
     await this.page.waitForResponse(response =>
@@ -47,4 +88,4 @@ export class WelcomePage extends BasePage
       response.status() === 200
     );
   }
-}
+} //end of class

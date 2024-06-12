@@ -10,28 +10,49 @@ export class PaymentInstructionsPage extends BasePage {
     this.page = page;
   }
 
+  /**
+   * This method returns the locator for the page heading element.
+   *
+   * @returns {Locator} The locator for the page heading element.
+   */
   get pageHeadingElement(): Locator {
     return this.page.getByRole("heading", { name: "Payment instructions" });
   }
 
+  /**
+   * This method returns the locator for the instruction details.
+   *
+   * @returns {Locator} The locator for the instruction details.
+   */
   get instructionDetails(): Locator {
     return this.page.getByText("To complete payment, please send amount due to wallet below then check the payment status when you are done.");
   }
 
+  /**
+   * This method returns the locator for the deposit to wallet heading.
+   *
+   * @returns {Locator} The locator for the deposit to wallet heading.
+   */
   get depositToWalletHeading(): Locator {
     return this.page.getByRole("heading", { name: "Deposit to wallet" });
   }
 
+  /**
+   * This method returns the locator for the deposit address label.
+   *
+   * @returns {Locator} The locator for the deposit address label.
+   */
   get depositAddressLabel(): Locator {
     return this.page.getByText("Deposit address", { exact: true });
   }
 
+  /**
+   * This method returns the locator for the alert message element.
+   *
+   * @returns {Locator} The locator for the alert message element.
+   */
   get alertMessageElement(): Locator {
     return this.page.getByRole("alert").filter({ has: this.page.getByTestId("InfoOutlinedIcon") });
-  }
-
-  getPageHeading(): Locator {
-    return this.page.getByRole("heading", { name: "Payment instructions" });
   }
 
   /**

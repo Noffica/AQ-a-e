@@ -23,10 +23,9 @@ test.describe("Full flow from login to check of payment status", () => {
     paymentStatusPage = new PaymentStatusPage(page);
   });
 
-  // TODO: remove if un-needed
-  // test.afterAll(async () => {
-  //   await context.close();
-  // });
+  test.afterAll(async({ browser }) => {
+    await browser.close();
+  });
 
   test('advances from "Welcome" to "Transaction details" page', async () => {
     // TODO: check for confirmation (alert) message upon _login_

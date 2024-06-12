@@ -17,7 +17,7 @@ export class TransactionDetailsPage extends BasePage
    *
    * @returns {Locator} The locator for the "Continue" button.
    */
-  getContinueButton(): Locator {
+  get continueButton(): Locator {
     return this.page.getByRole('button', { name: "Continue" });
   }
 
@@ -31,10 +31,10 @@ export class TransactionDetailsPage extends BasePage
   async confirmSuccessfulPageLoad() {
     // Confirm the 'Continue' button is disabled upon initial load/arrival
     expect(
-      await this.getContinueButton().getAttribute('class')
+      await this.continueButton.getAttribute('class')
     ).toContain('Mui-disabled');
     expect(
-      await this.getContinueButton().getAttribute('disabled')
+      await this.continueButton.getAttribute('disabled')
     ).not.toBeNull();
 
     // Financial info.
@@ -82,7 +82,7 @@ export class TransactionDetailsPage extends BasePage
    * @async
    */
   async advanceToPaymentInstructionsPage() {
-    await this.getContinueButton().click();
+    await this.continueButton.click();
 
     await this.page.waitForResponse(response =>
       response.url().includes('/api/bill') && response.status() === 200
