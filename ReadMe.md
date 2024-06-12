@@ -25,6 +25,12 @@ test("Clipboard has contents when icon clicked", async ({ browserName, context }
     await context.grantPermissions(["clipboard-read"]);
 // ...
 ```
-
 #### Customer Reference ID in the top-right
 * This was seen on the screen at times and not at others ∴ this was left un-tested.
+
+### Further tests
+* Welcome page:
+    * Confirmtion (alert) message upon login/authorisation
+    * Non-existent customer ref. ID prevents advancement
+    * Blank field prevents advancement
+*

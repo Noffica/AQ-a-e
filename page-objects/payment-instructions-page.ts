@@ -10,6 +10,11 @@ export class PaymentInstructionsPage extends BasePage {
     this.page = page;
   }
 
+  async jumpTo(cryptoAsset: string) {
+    let link = `${process.env.WELCOME_PAGE_URL}/payment/instructions?cryptoType=${cryptoAsset}&networkType=${financials.cryptoNetworkMap[cryptoAsset]}`;
+    await this.page.goto(link);
+  }
+
   /**
    * This method returns the locator for the page heading element.
    *

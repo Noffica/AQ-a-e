@@ -9,6 +9,10 @@ export class PaymentStatusPage extends BasePage
     super(page);
   }
 
+  async jumpTo() {
+    await this.page.goto(`${process.env.WELCOME_PAGE_URL}/payment/status`);
+  }
+
   /**
    * This method confirms the successful loading of the payment status page.
    * It checks for the visibility of certain elements on the page which are deemed most relevant to the function of the page
@@ -20,6 +24,10 @@ export class PaymentStatusPage extends BasePage
    *
    * The test for the 'alert' element expects it to be the earlier element in the DOM as it is in the header
    *
+   * When further tests are written for scenarios where there is a payment history, …
+   * … lines which check for static elements e.g. headings can be moved out into their own method
+   * … and 'Amount remaining' and 'Amount received' can be checked via a different method…
+   * … which could accept arguments about the numbers to expect
    * @async
    */
   async confirmSuccessfulInitialPageLoad() {

@@ -21,6 +21,10 @@ export class TransactionDetailsPage extends BasePage
     return this.page.getByRole('button', { name: "Continue" });
   }
 
+  async jumpTo() {
+    await this.page.goto(`${process.env.WELCOME_PAGE_URL}/payment/method`);
+  }
+
   /**
    * This method confirms the successful loading of the transaction details page.
    * It checks for the visibility of certain elements on the page which are deemed most relevant to the function of the page.
