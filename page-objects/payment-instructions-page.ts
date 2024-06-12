@@ -4,26 +4,30 @@ import { BasePage } from "./base-page";
 
 export class PaymentInstructionsPage extends BasePage {
   readonly page: Page;
-  // readonly pageHeadingIdentifier: [string, { name: string }] = ['heading', { name: 'Payment instructions' }];
-  readonly pageHeadingElement: Locator;
-  readonly instructionDetails: Locator;
-  readonly depositToWalletHeading: Locator;
-  readonly depositAddressLabel: Locator;
-  readonly alertMessageElement: Locator;
-  // readonly viewPaymentStatusButton: Locator;
-
-  // amountDueValue: Locator;
 
   constructor(page: Page) {
     super(page);
     this.page = page;
-    this.pageHeadingElement = page.getByRole("heading", { name: "Payment instructions" });
-    this.instructionDetails = page.getByText("To complete payment, please send amount due to wallet below then check the payment status when you are done.");
-    this.depositToWalletHeading = page.getByRole("heading", { name: "Deposit to wallet" });
-    this.depositAddressLabel = page.getByText("Deposit address", { exact: true });
-    this.alertMessageElement = page.getByRole("alert").filter({ has: page.getByTestId("InfoOutlinedIcon") });
-    // this.viewPaymentStatusButton = page.getByRole('button', { name: 'View payment status' });
-    // this.amountDueValue = page.getByRole('heading')
+  }
+
+  get pageHeadingElement(): Locator {
+    return this.page.getByRole("heading", { name: "Payment instructions" });
+  }
+
+  get instructionDetails(): Locator {
+    return this.page.getByText("To complete payment, please send amount due to wallet below then check the payment status when you are done.");
+  }
+
+  get depositToWalletHeading(): Locator {
+    return this.page.getByRole("heading", { name: "Deposit to wallet" });
+  }
+
+  get depositAddressLabel(): Locator {
+    return this.page.getByText("Deposit address", { exact: true });
+  }
+
+  get alertMessageElement(): Locator {
+    return this.page.getByRole("alert").filter({ has: this.page.getByTestId("InfoOutlinedIcon") });
   }
 
   getPageHeading(): Locator {
