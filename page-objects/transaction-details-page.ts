@@ -13,7 +13,6 @@ export class TransactionDetailsPage extends BasePage
   readonly continueButton: Locator;
   // readonly selectPaymentAssetMessage: Locator; //p[text=Select an asset to pay for this service]
 
-
   constructor(page: Page) {
     super(page);
     this.page = page;
@@ -61,11 +60,11 @@ export class TransactionDetailsPage extends BasePage
   async makeAssetSelection(assetAbbreviation: string, networkAbbreviation?: string) {
     await this.page.locator('#mui-component-select-cryptoType').click();
     // await this.page.getByLabel('Select asset').click();
-    await this.page.getByRole('option', { name: assetAbbreviation}).click();
+    await this.page.getByRole('option', { name: assetAbbreviation }).click();
 
     if (assetAbbreviation === 'USDT') {
       await this.page.locator('#mui-component-select-networkType').click();
-      await this.page.getByRole('option', { name: networkAbbreviation}).click();
+      await this.page.getByRole('option', { name: networkAbbreviation }).click();
     }
   }
 
@@ -75,14 +74,27 @@ export class TransactionDetailsPage extends BasePage
   //   await this.page.getByRole('option', { name: networkAbbreviation}).click();
   // }
 
+  /**
+   * This method advances the user to the payment instructions page.
+   * It first clicks the continue button, then waits for two specific API responses to ensure the page has loaded correctly.
+   * The first response is from the '/api/bill' endpoint and the second is from the '/payment/status' endpoint.
+   * Both responses must return a status of 200 to indicate success.
+   *
+   * Note: The commented out code at the end of the method was intended to check the URL of the page to ensure it ends with the correct parameters.
+   * This could be used as an additional check to ensure the user has been directed to the correct page.
+   *
+   * @async
+   */
   async advanceToPaymentInstructionsPage() {
+    console.log('before');
     this.continueButton.click();
+    console.log('after');
 
     await this.page.waitForResponse(response =>
       response.url().includes('/api/bill') && response.status() === 200
     );
     await this.page.waitForResponse(response =>
-      response.url().includes('/payment/status') && response.status() === 200
+      response.url().includes('/payment/instructions') && response.status() === 200
     );
 
     // let URLEnd: string;
@@ -93,10 +105,4 @@ export class TransactionDetailsPage extends BasePage
     // }
     // expect(this.page.url().endsWith(URLEnd)).toBe(true);
   }
-
-  // feeCalculator(dollarNumber?: number, feeAsPercent?: number): string {
-  //   let referenceNumber = dollarNumber || Number(process.env.MONETARY_AMOUNT_WITHOUT_FEE);
-  //   let percentage = feeAsPercent || Number(process.env.FEE_PERCENT);
-  //   return (percentage/100 * referenceNumber).toFixed(2);
-  // }
 } // end of class
