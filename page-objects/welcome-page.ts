@@ -32,8 +32,7 @@ export class WelcomePage extends BasePage
    * Advances to the transaction details page.
    * @async
    */
-  async advanceToTransactionDetailsPage() {
-    await this._goTo();
+  async fillCustomerRefIDAndAdvance() {
     await this._fillCustomerReferenceID();
     await this._clickContinue();
     await this._verifyHandOffToTransactionDetailsPage();
@@ -41,10 +40,9 @@ export class WelcomePage extends BasePage
 
   /**
    * Navigates to the welcome page URL.
-   * @private
    * @async
    */
-  private async _goTo() {
+  async goTo() {
     await this.page.goto(process.env.WELCOME_PAGE_URL);
   }
 

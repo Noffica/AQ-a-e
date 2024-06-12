@@ -9,6 +9,11 @@ export class PaymentStatusPage extends BasePage
     super(page);
   }
 
+  /**
+   * Navigates to the payment status page.
+   *
+   * @returns {Promise<void>} A promise that resolves when the navigation is complete.
+   */
   async jumpTo() {
     await this.page.goto(`${process.env.WELCOME_PAGE_URL}/payment/status`);
   }

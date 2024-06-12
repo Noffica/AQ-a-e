@@ -4,7 +4,6 @@ import { PaymentStatusPage } from "../page-objects/payment-status-page";
 import { TransactionDetailsPage } from "../page-objects/transaction-details-page";
 import { WelcomePage } from "../page-objects/welcome-page";
 
-// TODO: mark tests as serial - do **not** rely on default behaviour
 test.describe("'Transaction details' → 'Payment instructions'", () => {
   test.describe.configure({ mode: "serial" });
 
@@ -31,9 +30,10 @@ test.describe("'Transaction details' → 'Payment instructions'", () => {
     paymentStatusPage = new PaymentStatusPage(page);
   });
 
-  test.afterAll(async({ browser }) => {
-    await browser.close();
-  });
+  // Allow execution of all spec files
+    // test.afterAll(async({ browser }) => {
+    //   await browser.close();
+    // });
 
   test.describe("Select first crypto asset with which to pay", () => {
     let cryptoAsset = "USDT",

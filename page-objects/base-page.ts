@@ -9,7 +9,6 @@ export class BasePage
     this.page = page;
   }
 
-
   /**
    * Confirms the visibility of the customer reference ID on the page.
    * If a customer reference ID is provided, it will use that; otherwise, it will use the value from the environment variable `CUSTOMER_REFERENCE_ID`.

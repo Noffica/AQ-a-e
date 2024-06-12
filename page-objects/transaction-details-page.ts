@@ -21,6 +21,11 @@ export class TransactionDetailsPage extends BasePage
     return this.page.getByRole('button', { name: "Continue" });
   }
 
+  /**
+   * Navigates to the payment method page.
+   *
+   * @returns {Promise<void>} A promise that resolves when the navigation is complete.
+   */
   async jumpTo() {
     await this.page.goto(`${process.env.WELCOME_PAGE_URL}/payment/method`);
   }

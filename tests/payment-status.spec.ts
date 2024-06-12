@@ -2,8 +2,7 @@ import { test } from "@playwright/test";
 import { PaymentStatusPage } from "../page-objects/payment-status-page";
 import { TransactionDetailsPage } from "../page-objects/transaction-details-page";
 
-// TODO: mark tests as serial - do **not** rely on default behaviour
-test.describe("'Payment status'", () => {
+test.describe("Payment status", () => {
   test.describe.configure({ mode: "serial" });
 
   let transactionDetailsPage: TransactionDetailsPage,
@@ -25,9 +24,10 @@ test.describe("'Payment status'", () => {
     paymentStatusPage = new PaymentStatusPage(page);
   });
 
-  test.afterAll(async({ browser }) => {
-    await browser.close();
-  });
+  // Allow execution of all spec files
+    // test.afterAll(async({ browser }) => {
+    //   await browser.close();
+    // });
 
   test('arrives at "Payment status"', async() => {
     await paymentStatusPage.jumpTo();

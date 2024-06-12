@@ -10,6 +10,12 @@ export class PaymentInstructionsPage extends BasePage {
     this.page = page;
   }
 
+  /**
+   * Navigates to the payment instructions page for the specified cryptocurrency asset.
+   *
+   * @param {string} cryptoAsset - The type of cryptocurrency asset (e.g., BTC, ETH).
+   * @returns {Promise<void>} A promise that resolves when the navigation is complete.
+   */
   async jumpTo(cryptoAsset: string) {
     let link = `${process.env.WELCOME_PAGE_URL}/payment/instructions?cryptoType=${cryptoAsset}&networkType=${financials.cryptoNetworkMap[cryptoAsset]}`;
     await this.page.goto(link);
