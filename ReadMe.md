@@ -1,6 +1,6 @@
 ## Setup
 1. This project has been written with Playwright under TypeScript.
-1. Run `npm install` to install all dependencies (incl. `playwright` and `dotenv`)
+1. At root directory level, run `npm install` to install all dependencies (incl. `playwright` and `dotenv`)
 1. Create a file named `.env` in the root directory of the project
     * Set the following environment variables inside this `.env` file:
         * `CUSTOMER_REFERENCE_ID` (**mandatory**)
