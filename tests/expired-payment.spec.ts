@@ -15,13 +15,13 @@ test.describe("Expired payment", () => {
     ]);
     const page = await context.newPage();
 
-    page.goto(`${process.env.WELCOME_PAGE_URL}/payment/expired}`)
+    page.goto(`${process.env.WELCOME_PAGE_URL}/payment/expired`)
   });
 
   // Allow execution of all spec files
-    // test.afterAll(async({ browser }) => {
-    //   await browser.close();
-    // });
+    test.afterAll(async({ browser }) => {
+      await browser.close();
+    });
 
   test.skip('goes to "View Payment Status"', async() => {
     // Test is skipped as it is considered unrealistic to wait for 10 minutes to arrive at this scenario
