@@ -3,7 +3,7 @@ import { test } from "@playwright/test";
 test.describe("Expired payment", () => {
   test.describe.configure({ mode: "serial" });
 
-  test.beforeAll(async ({ browser, browserName }) => {
+  async function setupContextAndPage(browser) {
     const context = await browser.newContext();
     await context.addCookies([
       {
@@ -14,8 +14,12 @@ test.describe("Expired payment", () => {
       }
     ]);
     const page = await context.newPage();
+    await page.goto(`${process.env.WELCOME_PAGE_URL}/payment/expired`);
+    return { context, page };
+  }
 
-    page.goto(`${process.env.WELCOME_PAGE_URL}/payment/expired`)
+  test.beforeAll(async ({ browser }) => {
+    await setupContextAndPage(browser);
   });
 
   // Allow execution of all spec files
