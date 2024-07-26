@@ -1,16 +1,13 @@
 import { Locator, Page } from "@playwright/test";
 import { BasePage } from "./base-page";
 
-export class WelcomePage extends BasePage
-{
+export class WelcomePage extends BasePage {
   readonly page: Page;
 
-  constructor(page: Page)
-  {
+  constructor(page: Page) {
     super(page);
     this.page = page;
   }
-
 
   /**
    * Gets the locator for the "Continue" button.
@@ -25,7 +22,7 @@ export class WelcomePage extends BasePage
    * @returns {Locator} The locator for the "Enter Customer Reference ID" field.
    */
   get customerReferenceIDField(): Locator {
-    return this.page.getByLabel('Enter Customer Reference ID');
+    return this.page.getByLabel("Enter Customer Reference ID");
   }
 
   /**
@@ -74,16 +71,14 @@ export class WelcomePage extends BasePage
    */
   private async _verifyHandOffToTransactionDetailsPage() {
     // Wait for the login API call to complete
-    await this.page.waitForResponse(response =>
-      response.url().includes('/api/login')
-      &&
-      response.status() === 200
+    await this.page.waitForResponse(
+      (response) =>
+        response.url().includes("/api/login") && response.status() === 200,
     );
     // Wait for the KYC API call to complete
-    await this.page.waitForResponse(response =>
-      response.url().includes('/kyc')
-      &&
-      response.status() === 200
+    await this.page.waitForResponse(
+      (response) =>
+        response.url().includes("/kyc") && response.status() === 200,
     );
   }
 } //end of class

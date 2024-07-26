@@ -70,7 +70,7 @@ test("Clipboard has contents when icon clicked", async ({ browserName, context }
 
 ## Further tests
 * **Welcome page**:
-    * Confirmtion (alert) message upon login/authorisation
+    * Confirmation (alert) message upon login/authorisation
     * Non-existent customer ref. ID prevents advancement
     * Blank customer ref. ID field prevents advancement
 * **All pages beyond Welcome**:

@@ -1,11 +1,9 @@
 import { Page, expect } from "@playwright/test";
 
-export class BasePage
-{
+export class BasePage {
   readonly page: Page;
 
-  constructor(page: Page)
-  {
+  constructor(page: Page) {
     this.page = page;
   }
 
@@ -19,9 +17,13 @@ export class BasePage
    * @param {string} [customerReferenceID] - The customer reference ID to confirm. Optional.
    * @returns {Promise<void>} A promise that resolves when the customer reference ID is confirmed to be visible.
    */
-  async confirmCustomerReferenceID(customerReferenceID?: string) {
+  async confirmCustomerReferenceID(
+    customerReferenceID?: string,
+  ): Promise<void> {
     await expect(
-      this.page.getByText(customerReferenceID || process.env.CUSTOMER_REFERENCE_ID)
+      this.page.getByText(
+        customerReferenceID || process.env.CUSTOMER_REFERENCE_ID,
+      ),
     ).toBeVisible();
   }
 
